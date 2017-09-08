@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul>
+    {% for paste in pastes %}
+        <li><a href="{{ paste.get_absolute_url }}">{{ paste.id }}</a> (created {{ paste.date_created }})</li>
+    {% empty %}
+    No pastes.
+    {% endfor %}
+</ul>
+{% endblock content %}

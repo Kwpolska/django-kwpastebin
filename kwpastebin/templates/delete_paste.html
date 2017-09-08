@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="POST" style="text-align: center;">{% csrf_token %}<button type="submit" name="act" value="confirm" class="btn btn-lg btn-danger">Confirm</button> <button type="submit" name="act" value="cancel" class="btn btn-lg btn-default">Cancel</button></form>
+{% endblock %}

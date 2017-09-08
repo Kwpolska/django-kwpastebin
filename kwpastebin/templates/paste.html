@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<link rel="Stylesheet" href="{% static "paste.css" %}">
+{% endblock %}
+{% block content %}
+<p>created by {{ paste.user_disp }} on {{ paste.date_created }}{% if paste.date_modified != paste.date_created %}, modified {{ paste.date_modified }}{% endif %}{% if can_change or can_delete %} —
+    {% if can_change %}<a class="btn btn-info" href="{% url 'kwpastebin:edit_paste' paste.id %}">Edit</a>{% endif %}
+    {% if can_delete %}<a class="btn btn-danger" href="{% url 'kwpastebin:delete_paste' paste.id %}">Delete</a>{% endif %}
+    {% if perms.kwpastebin.invalidte_cache %}<a class="btn btn-default btn-sm" href="{% url 'kwpastebin:invalidate_cache_for_paste' paste.id %}">Invalidate cache</a>{% endif %}
+    {% endif %}
+</p>
+{{ paste.html_or_generate | safe }}
+{% endblock %}
