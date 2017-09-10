@@ -11,6 +11,9 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.3
+    * Add missing migration 0003
+
 0.1.2
     * Support rendering Markdown to HTML
     * Add raw links
