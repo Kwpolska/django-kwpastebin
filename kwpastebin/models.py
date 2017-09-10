@@ -14,7 +14,7 @@ import markdown
 import bleach
 
 # Configuration for Pygments, Markdown, Bleach
-LANGUAGE_CHOICES = [(i[1][0], i[0]) for i in pygments.lexers.get_all_lexers()] + [
+LANGUAGE_CHOICES = [(i[1][0], i[0]) for i in pygments.lexers.get_all_lexers() if not i[1][0].startswith('ipython')] + [
     ('markdown_kwpastebin', 'markdown (render)')
 ]
 LANGUAGE_CHOICES = sorted(LANGUAGE_CHOICES, key=lambda x: x[1].casefold())
