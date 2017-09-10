@@ -8,7 +8,7 @@
 
     {{ form.language.label_tag }} {{ form.language }}
     {{ form.language.errors }}
-    <label for={{ form.public.id_for_label }}">{{ form.public }} {{ form.public.label }}</label>
+    <label for="{{ form.public.id_for_label }}">{{ form.public }} {{ form.public.label }}</label>
     {{ form.public.errors }}
     <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
 </form>

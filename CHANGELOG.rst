@@ -11,6 +11,10 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.2
+    * Support rendering Markdown to HTML
+    * Add raw links
+
 0.1.1
     * Pastes can have titles
     * Public pastes are displayed on the index

@@ -4,11 +4,11 @@
 <link rel="Stylesheet" href="{% static "paste.css" %}">
 {% endblock %}
 {% block content %}
-<p>created by {{ paste.user_disp }} on {{ paste.date_created|date:"SHORT_DATETIME_FORMAT" }}{% if paste.date_modified != paste.date_created %}, modified {{ paste.date_modified|date:"SHORT_DATETIME_FORMAT" }}{% endif %}{% if can_change or can_delete or perms.kwpastebin.invalidate_cache %} —
+<p>created by {{ paste.user_disp }} on {{ paste.date_created|date:"SHORT_DATETIME_FORMAT" }}{% if paste.date_modified != paste.date_created %}, modified {{ paste.date_modified|date:"SHORT_DATETIME_FORMAT" }}{% endif %} —
+    <a class="btn btn-primary" href="{% url 'kwpastebin:show_paste_raw' paste.id %}">Raw</a>
     {% if can_change %}<a class="btn btn-info" href="{% url 'kwpastebin:edit_paste' paste.id %}">Edit</a>{% endif %}
     {% if can_delete %}<a class="btn btn-danger" href="{% url 'kwpastebin:delete_paste' paste.id %}">Delete</a>{% endif %}
     {% if perms.kwpastebin.invalidate_cache %}<a class="btn btn-default btn-sm" href="{% url 'kwpastebin:invalidate_cache_for_paste' paste.id %}">Invalidate cache</a>{% endif %}
-    {% endif %}
 </p>
 {{ paste.html_or_generate | safe }}
 {% endblock %}

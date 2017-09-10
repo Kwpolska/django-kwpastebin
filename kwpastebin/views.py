@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from kwpastebin.models import Paste
 from kwpastebin.forms import PasteForm
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.urls import reverse
 from django.conf import settings
 # Create your views here.
@@ -17,7 +17,7 @@ def index(request):
         if form.is_valid():
             paste = Paste()
             paste.user = request.user if request.user.is_authenticated else None
-            paste.text = form.cleaned_data['title']
+            paste.title = form.cleaned_data['title']
             paste.content = form.cleaned_data['content']
             paste.language = form.cleaned_data['language']
             paste.public = form.cleaned_data['public']
@@ -80,6 +80,10 @@ def show_paste(request, id):
         'paste': paste,
     }
     return render(request, "paste.html", context)
+
+def show_paste_raw(request, id):
+    paste = get_object_or_404(Paste, id=id)
+    return HttpResponse(paste.content, content_type='text/plain')
 
 @login_required
 def edit_paste(request, id):

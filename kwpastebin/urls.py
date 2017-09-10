@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^(?P<id>.*?)/edit/$', views.edit_paste, name='edit_paste'),
     url(r'^(?P<id>.*?)/delete/$', views.delete_paste, name='delete_paste'),
     url(r'^(?P<id>.*?)/invalidate_cache/$', views.invalidate_cache_for_paste, name='invalidate_cache_for_paste'),
+    url(r'^(?P<id>.*?)/raw/$', views.show_paste_raw, name='show_paste_raw'),
     url(r'^(?P<id>.*?)/$', views.show_paste, name='show_paste'),
 ]

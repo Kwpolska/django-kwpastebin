@@ -1,3 +1,6 @@
 Django
 hashids
 django-hashid-field
+markdown
+mdx_linkify
+bleach
