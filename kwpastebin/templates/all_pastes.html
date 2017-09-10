@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% load kwpastebin_extras %}
 {% block content %}
+{% if pastes %}
 <ul>
     {% for paste in pastes %}
-        <li><a href="{{ paste.get_absolute_url }}">{{ paste.id }}</a> (created by {{ paste.user_disp }} on {{ paste.date_created }})</li>
-    {% empty %}
-    No pastes.
+        {% paste_li paste %}
     {% endfor %}
 </ul>
+{% else %}
+No pastes found.
+{% endif %}
+
 {% if perms.kwpastebin.invalidate_cache %}
 <form action="{% url 'kwpastebin:invalidate_cache' %}" method="POST">{% csrf_token %}<button class="btn btn-danger btn-sm">Invalidate cache for all pastes</button></form>
 {% endif %}

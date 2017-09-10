@@ -11,6 +11,7 @@ import pygments.formatters.html
 
 LANGUAGE_CHOICES = sorted([(i[1][0], i[0]) for i in pygments.lexers.get_all_lexers()], key=lambda x: x[1].casefold())
 LANGUAGE_SHORT_CHOICES = [i[0] for i in LANGUAGE_CHOICES]
+DEFAULT_LANG = 'text'
 HTML_FORMATTER = pygments.formatters.html.HtmlFormatter(linenos='table')
 
 def generate_html(code: str, language: str) -> str:
@@ -23,18 +24,23 @@ class AutoPygmentsHTMLField(models.TextField):
 
 class Paste(models.Model):
     id = HashidAutoField(primary_key=True, editable=False)
+    title = models.CharField(max_length=100, blank=True)
     content = models.TextField()
-    language = models.CharField(max_length=100, choices=LANGUAGE_CHOICES, default='text')
+    language = models.CharField(max_length=100, choices=LANGUAGE_CHOICES, default=DEFAULT_LANG)
+    public = models.BooleanField(default=False)
     html = AutoPygmentsHTMLField(null=True, editable=False)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_modified = models.DateTimeField(auto_now=True, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, null=True)
 
     def __repr__(self):
-        return "<Paste {}>".format(self.id)
+        if self.title:
+            return "<Paste {0} ({1})>".format(self.id, self.title)
+        else:
+            return "<Paste {}>".format(self.id)
 
     def __str__(self):
-        return str(self.id)
+        return self.title or str(self.id)
 
     def html_or_generate(self):
         if not self.html:

@@ -1,0 +1,14 @@
+<form action="" method="POST">{% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {{ form.title }}
+    {{ form.title.errors }}
+    {{ form.content }}
+    {{ form.content.errors }}
+
+    {{ form.language.label_tag }} {{ form.language }}
+    {{ form.language.errors }}
+    <label for={{ form.public.id_for_label }}">{{ form.public }} {{ form.public.label }}</label>
+    {{ form.public.errors }}
+    <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+</form>

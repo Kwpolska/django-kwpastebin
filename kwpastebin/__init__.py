@@ -1,4 +1,4 @@
-# KwPastebin for Django v0.1.0
+# KwPastebin for Django v0.1.1
 # A simple, yet stylish, pastebin.
 # Copyright © 2017, Chris Warrick.
 # All rights reserved.

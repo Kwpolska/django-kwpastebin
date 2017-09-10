@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load kwpastebin_extras %}
 {% block content %}
+{% if pastes %}
 <ul>
     {% for paste in pastes %}
-        <li><a href="{{ paste.get_absolute_url }}">{{ paste.id }}</a> (created {{ paste.date_created }})</li>
-    {% empty %}
-    No pastes.
+        {% paste_li paste %}
     {% endfor %}
 </ul>
+{% else %}
+No pastes found.
+{% endif %}
 {% endblock content %}

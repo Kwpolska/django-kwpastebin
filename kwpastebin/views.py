@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
-from kwpastebin.models import Paste, LANGUAGE_CHOICES, LANGUAGE_SHORT_CHOICES
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from kwpastebin.models import Paste
+from kwpastebin.forms import PasteForm
+from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.conf import settings
 # Create your views here.
@@ -11,23 +12,27 @@ def index(request):
     if request.method == "POST":
         if not has_add_perm:
             return HttpResponseForbidden()
-        if 'content' not in request.POST or 'language' not in request.POST or request.POST['language'] not in LANGUAGE_SHORT_CHOICES:
-            return HttpResponseBadRequest()
 
-        paste = Paste()
-        paste.user = request.user if request.user.is_authenticated else None
-        paste.content = request.POST['content']
-        paste.language = request.POST['language']
-        paste.save()
-        return redirect(paste.get_absolute_url())
-
+        form = PasteForm(request.POST)
+        if form.is_valid():
+            paste = Paste()
+            paste.user = request.user if request.user.is_authenticated else None
+            paste.text = form.cleaned_data['title']
+            paste.content = form.cleaned_data['content']
+            paste.language = form.cleaned_data['language']
+            paste.public = form.cleaned_data['public']
+            paste.save()
+            return redirect(paste.get_absolute_url())
+    else:
+        form = PasteForm()
 
     context = {
         'pid': 'paste_index',
         'title': 'Pastebin',
         'htmltitle': 'Pastebin | go.chriswarrick.com',
         'has_add_perm': has_add_perm,
-        'language_choices': LANGUAGE_CHOICES,
+        'public_pastes': Paste.objects.filter(public=True),
+        'form': form,
     }
     return render(request, "index.html", context)
 
@@ -68,8 +73,8 @@ def show_paste(request, id):
     paste = get_object_or_404(Paste, id=id)
     context = {
         'pid': 'paste_show',
-        'title': 'Paste {0}'.format(paste.id),
-        'htmltitle': 'Paste {0} | go.chriswarrick.com'.format(paste.id),
+        'title': 'Paste: {0}'.format(paste),
+        'htmltitle': 'Paste: {0} | go.chriswarrick.com'.format(paste),
         'can_change': _can_with_own(request, paste, 'change'),
         'can_delete': _can_with_own(request, paste, 'delete'),
         'paste': paste,
@@ -82,23 +87,27 @@ def edit_paste(request, id):
     if not _can_with_own(request, paste, 'change'):
         return HttpResponseForbidden()
 
-    if request.method == "GET":
-        context = {
-            'pid': 'paste_edit',
-            'title': 'Edit paste {0}'.format(paste.id),
-            'htmltitle': 'Edit Paste {0} | go.chriswarrick.com'.format(paste.id),
-            'paste': paste,
-            'language_choices': LANGUAGE_CHOICES,
-        }
-        return render(request, "edit_paste.html", context)
-    else:
-        if 'content' not in request.POST or 'language' not in request.POST or request.POST['language'] not in LANGUAGE_SHORT_CHOICES:
-            return HttpResponseBadRequest()
-        paste.content = request.POST['content']
-        paste.language = request.POST['language']
-        paste.save()
+    if request.method == "POST":
+        form = PasteForm(request.POST)
+        if form.is_valid():
+            paste.title = form.cleaned_data['title']
+            paste.content = form.cleaned_data['content']
+            paste.language = form.cleaned_data['language']
+            paste.public = form.cleaned_data['public']
+            paste.save()
 
-        return redirect(paste.get_absolute_url())
+            return redirect(paste.get_absolute_url())
+
+    else:
+        form = PasteForm({'title': paste.title, 'content': paste.content, 'language': paste.language, 'public': paste.public})
+    context = {
+        'pid': 'paste_edit',
+        'title': 'Edit paste: {0}'.format(paste),
+        'htmltitle': 'Edit paste: {0} | go.chriswarrick.com'.format(paste),
+        'paste': paste,
+        'form': form,
+    }
+    return render(request, "edit_paste.html", context)
 
 @login_required
 def delete_paste(request, id):
@@ -109,8 +118,8 @@ def delete_paste(request, id):
     if request.method == "GET":
         context = {
             'pid': 'paste_delete',
-            'title': 'Confirm deletion of paste {0}'.format(paste.id),
-            'htmltitle': 'Delete Paste {0} | go.chriswarrick.com'.format(paste.id),
+            'title': 'Confirm deletion of paste: {0}'.format(paste),
+            'htmltitle': 'Delete paste: {0} | go.chriswarrick.com'.format(paste),
             'paste': paste,
         }
         return render(request, "delete_paste.html", context)
