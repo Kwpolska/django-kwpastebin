@@ -11,6 +11,9 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.4
+    * Django 2.0 compatibility
+
 0.1.3
     * Add missing migration 0003
 
