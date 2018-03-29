@@ -26,11 +26,14 @@ HTML_FORMATTER = pygments.formatters.html.HtmlFormatter(linenos='table')
 ALLOWED_TAGS = bleach.ALLOWED_TAGS + ['br', 'p', 'abbr', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 's']
 ALLOWED_ATTRIBUTES = bleach.ALLOWED_ATTRIBUTES.copy()
 ALLOWED_ATTRIBUTES['img'] = ['src', 'alt', 'title']
-MD_EXTENSIONS = ['markdown.extensions.abbr', 'markdown.extensions.smart_strong', 'markdown.extensions.nl2br', 'mdx_linkify', 'markdown.extensions.toc']
+MD_EXTENSIONS = ['markdown.extensions.abbr', 'markdown.extensions.smart_strong', 'markdown.extensions.nl2br',
+                 'mdx_linkify', 'markdown.extensions.toc']
+
 
 def render_code_html(code: str, language: str) -> str:
     lexer = pygments.lexers.get_lexer_by_name(language)  # type: pygments.lexer.Lexer
     return pygments.highlight(code, lexer, HTML_FORMATTER)
+
 
 def render_markdown_html(code: str) -> str:
     return bleach.clean(markdown.markdown(code, extensions=MD_EXTENSIONS),
@@ -43,6 +46,7 @@ class AutoRenderHTMLField(models.TextField):
             return render_markdown_html(model_instance.content)
         else:
             return render_code_html(model_instance.content, model_instance.language)
+
 
 class Paste(models.Model):
     id = HashidAutoField(primary_key=True, editable=False)

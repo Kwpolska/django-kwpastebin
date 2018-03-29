@@ -8,7 +8,7 @@ from django.conf import settings
 # Create your views here.
 
 def index(request):
-    has_add_perm =  request.user.has_perm("kwpastebin.add_paste") or getattr(settings, 'KWPASTEBIN_ANONYMOUS_CAN_ADD', False)
+    has_add_perm = request.user.has_perm("kwpastebin.add_paste") or getattr(settings, 'KWPASTEBIN_ANONYMOUS_CAN_ADD', False)
     if request.method == "POST":
         if not has_add_perm:
             return HttpResponseForbidden()
