@@ -1,6 +1,8 @@
 from django.conf.urls import url
 from kwpastebin import views
 
+app_name = "kwpastebin"
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^mine/$', views.my_pastes, name='my_pastes'),
