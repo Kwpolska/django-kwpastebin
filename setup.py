@@ -4,7 +4,7 @@ import io
 from setuptools import setup
 
 setup(name='django-kwpastebin',
-      version='0.1.5',
+      version='0.1.6',
       description='A simple, yet stylish, pastebin',
       keywords='django,pastebin',
       author='Chris Warrick',
