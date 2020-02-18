@@ -4,7 +4,7 @@ import io
 from setuptools import setup
 
 setup(name='django-kwpastebin',
-      version='0.1.4',
+      version='0.1.5',
       description='A simple, yet stylish, pastebin',
       keywords='django,pastebin',
       author='Chris Warrick',
@@ -19,5 +19,7 @@ setup(name='django-kwpastebin',
                    'Programming Language :: Python',
                    'Programming Language :: Python :: 3'],
       packages=['kwpastebin'],
-      install_requires=['Django', 'hashids', 'django-hashid-field', 'markdown', 'mdx_linkify', 'bleach'],
+      install_requires=[
+          'Django', 'hashids', 'django-hashid-field', 'markdown',
+          'mdx_linkify', 'bleach', 'pygments'],
       )
