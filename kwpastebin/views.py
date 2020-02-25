@@ -34,7 +34,7 @@ def index(request):
         'public_pastes': Paste.objects.filter(public=True),
         'form': form,
     }
-    return render(request, "index.html", context)
+    return render(request, "kwpastebin/index.html", context)
 
 @login_required
 def my_pastes(request):
@@ -45,7 +45,7 @@ def my_pastes(request):
         'htmltitle': 'My pastes | go.chriswarrick.com',
         'pastes': pastes
     }
-    return render(request, "my_pastes.html", context)
+    return render(request, "kwpastebin/my_pastes.html", context)
 
 @permission_required('kwpastebin.list_all_pastes')
 def all_pastes(request):
@@ -56,7 +56,7 @@ def all_pastes(request):
         'htmltitle': 'All pastes | go.chriswarrick.com',
         'pastes': pastes
     }
-    return render(request, "all_pastes.html", context)
+    return render(request, "kwpastebin/all_pastes.html", context)
 
 @permission_required('kwpastebin.invalidate_cache')
 def invalidate_cache(request):
@@ -79,7 +79,7 @@ def show_paste(request, id):
         'can_delete': _can_with_own(request, paste, 'delete'),
         'paste': paste,
     }
-    return render(request, "paste.html", context)
+    return render(request, "kwpastebin/paste.html", context)
 
 def show_paste_raw(request, id):
     paste = get_object_or_404(Paste, id=id)
@@ -111,7 +111,7 @@ def edit_paste(request, id):
         'paste': paste,
         'form': form,
     }
-    return render(request, "edit_paste.html", context)
+    return render(request, "kwpastebin/edit_paste.html", context)
 
 @login_required
 def delete_paste(request, id):
@@ -126,7 +126,7 @@ def delete_paste(request, id):
             'htmltitle': 'Delete paste: {0} | go.chriswarrick.com'.format(paste),
             'paste': paste,
         }
-        return render(request, "delete_paste.html", context)
+        return render(request, "kwpastebin/delete_paste.html", context)
     elif request.POST['act'] == 'confirm':
         paste.delete()
         return redirect(reverse('kwpastebin:index'))

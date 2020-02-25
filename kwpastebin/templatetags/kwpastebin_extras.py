@@ -15,7 +15,7 @@ def paste_li(paste):
         return format_html('<li><a href="{0}">{1}</a> (created by {2} on {3}, modified on {4})', paste.get_absolute_url(), paste, paste.user_disp(), date_format(paste.date_created, "SHORT_DATETIME_FORMAT"), date_format(paste.date_modified, "SHORT_DATETIME_FORMAT"))
 
 
-@register.inclusion_tag('paste_form.html')
+@register.inclusion_tag('kwpastebin/paste_form.html')
 def paste_form(form, paste):
     return {
         'form': form,

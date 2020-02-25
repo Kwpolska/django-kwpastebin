@@ -1,7 +1,7 @@
 Django
 hashids
 django-hashid-field
-markdown
-mdx_linkify
+markdown>=3.2.1
+mdx_linkify>=1.4
 bleach
 pygments

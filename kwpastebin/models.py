@@ -26,8 +26,7 @@ HTML_FORMATTER = pygments.formatters.html.HtmlFormatter(linenos='table')
 ALLOWED_TAGS = bleach.ALLOWED_TAGS + ['br', 'p', 'abbr', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 's']
 ALLOWED_ATTRIBUTES = bleach.ALLOWED_ATTRIBUTES.copy()
 ALLOWED_ATTRIBUTES['img'] = ['src', 'alt', 'title']
-MD_EXTENSIONS = ['markdown.extensions.abbr', 'markdown.extensions.smart_strong', 'markdown.extensions.nl2br',
-                 'mdx_linkify', 'markdown.extensions.toc']
+MD_EXTENSIONS = ['abbr', 'nl2br', 'toc', 'mdx_linkify']
 
 
 def render_code_html(code: str, language: str) -> str:
