@@ -23,7 +23,7 @@ LANGUAGE_SHORT_CHOICES = [i[0] for i in LANGUAGE_CHOICES]
 DEFAULT_LANG = 'text'
 HTML_FORMATTER = pygments.formatters.html.HtmlFormatter(linenos='table')
 
-ALLOWED_TAGS = bleach.ALLOWED_TAGS + ['br', 'p', 'abbr', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 's']
+ALLOWED_TAGS = list(bleach.ALLOWED_TAGS) + ['br', 'p', 'abbr', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 's']
 ALLOWED_ATTRIBUTES = bleach.ALLOWED_ATTRIBUTES.copy()
 ALLOWED_ATTRIBUTES['img'] = ['src', 'alt', 'title']
 MD_EXTENSIONS = ['abbr', 'nl2br', 'toc', 'mdx_linkify']
